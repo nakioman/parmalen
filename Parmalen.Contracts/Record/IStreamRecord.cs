@@ -1,7 +1,6 @@
-﻿using System.IO;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-namespace Parmalen.Contracts
+namespace Parmalen.Contracts.Record
 {
     public interface IStreamRecord
     {

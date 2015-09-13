@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Parmalen.Engine
+namespace Parmalen.Contracts.Intent
 {
     public class WitOutcome
     {
@@ -12,5 +12,8 @@ namespace Parmalen.Engine
 
         [JsonProperty("confidence")]
         public decimal Confidence { get; set; }
+
+        [JsonProperty("entities")]
+        public WitEntities Entities { get; set; }
     }
 }

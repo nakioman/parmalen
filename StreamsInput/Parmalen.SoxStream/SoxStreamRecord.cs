@@ -5,6 +5,7 @@ using System.IO;
 using System.Threading.Tasks;
 using log4net;
 using Parmalen.Contracts;
+using Parmalen.Contracts.Record;
 
 namespace Parmalen.SoxStream
 {

@@ -10,6 +10,7 @@ using Autofac.Integration.Mef;
 using log4net;
 using log4net.Config;
 using Parmalen.Contracts;
+using Parmalen.Contracts.Intent;
 
 namespace Parmalen.Engine
 {
@@ -30,7 +31,8 @@ namespace Parmalen.Engine
             {
                 while (true)
                 {
-                    var task = wit.CaptureSpeechIntentAsync().Result;
+                    var task = wit.CaptureTextIntentAsync("Como va a estar el tiempo mañana en Buenos Aires?").Result;
+                    //var task = wit.CaptureSpeechIntentAsync().Result;
                     if (task != null)
                     {
                         foreach (var outcome in task.Outcomes)
@@ -42,7 +44,7 @@ namespace Parmalen.Engine
                                 _log.ErrorFormat("There is no plugin implemented for the intent: {0}", outcome.Intent);
                                 continue;
                             }
-                            intent.Value.Run();
+                            intent.Value.Run(outcome.Entities);
                         }
                     }
                 }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using log4net;
 using NAudio.Wave;
 using Parmalen.Contracts;
+using Parmalen.Contracts.Record;
 
 namespace Parmalen.StreamTests
 {

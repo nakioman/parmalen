@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace Parmalen.Contracts
+﻿namespace Parmalen.Contracts.Record
 {
     public class StreamInfo
     {

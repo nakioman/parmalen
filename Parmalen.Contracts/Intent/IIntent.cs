@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 
-namespace Parmalen.Contracts
+namespace Parmalen.Contracts.Intent
 {
     public interface IIntent
     {
-        Task Run();
+        Task Run(WitEntities entities);
     }
 }

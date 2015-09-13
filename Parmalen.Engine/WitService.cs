@@ -8,6 +8,8 @@ using Autofac.Features.Metadata;
 using log4net;
 using Newtonsoft.Json;
 using Parmalen.Contracts;
+using Parmalen.Contracts.Intent;
+using Parmalen.Contracts.Record;
 using Parmalen.Engine.Configuration;
 
 namespace Parmalen.Engine
