@@ -7,6 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parmalen.Contracts", "Parma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parmalen.Engine", "Parmalen.Engine\Parmalen.Engine.csproj", "{FCDF9CB7-30BD-4F81-9E22-2E1D8994752A}"
 	ProjectSection(ProjectDependencies) = postProject
+		{D34AF556-B32B-4125-9866-BF8AF2C57B13} = {D34AF556-B32B-4125-9866-BF8AF2C57B13}
 		{70CE6CD1-00D9-4F06-BFC3-4F836F98848C} = {70CE6CD1-00D9-4F06-BFC3-4F836F98848C}
 	EndProjectSection
 EndProject
@@ -15,6 +16,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StreamsInput", "StreamsInput", "{99ED3209-91CA-45C1-9951-74EDA752C7A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parmalen.StreamTests", "StreamsInput\Parmalen.StreamTests\Parmalen.StreamTests.csproj", "{70CE6CD1-00D9-4F06-BFC3-4F836F98848C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parmalen.SoxStream", "StreamsInput\Parmalen.SoxStream\Parmalen.SoxStream.csproj", "{D34AF556-B32B-4125-9866-BF8AF2C57B13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,11 +37,16 @@ Global
 		{70CE6CD1-00D9-4F06-BFC3-4F836F98848C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70CE6CD1-00D9-4F06-BFC3-4F836F98848C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70CE6CD1-00D9-4F06-BFC3-4F836F98848C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D34AF556-B32B-4125-9866-BF8AF2C57B13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D34AF556-B32B-4125-9866-BF8AF2C57B13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D34AF556-B32B-4125-9866-BF8AF2C57B13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D34AF556-B32B-4125-9866-BF8AF2C57B13}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{70CE6CD1-00D9-4F06-BFC3-4F836F98848C} = {99ED3209-91CA-45C1-9951-74EDA752C7A1}
+		{D34AF556-B32B-4125-9866-BF8AF2C57B13} = {99ED3209-91CA-45C1-9951-74EDA752C7A1}
 	EndGlobalSection
 EndGlobal
