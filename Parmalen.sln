@@ -8,6 +8,7 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parmalen.Engine", "Parmalen.Engine\Parmalen.Engine.csproj", "{FCDF9CB7-30BD-4F81-9E22-2E1D8994752A}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D34AF556-B32B-4125-9866-BF8AF2C57B13} = {D34AF556-B32B-4125-9866-BF8AF2C57B13}
+		{37A9C660-0E03-4743-B386-941B41FF9080} = {37A9C660-0E03-4743-B386-941B41FF9080}
 		{70CE6CD1-00D9-4F06-BFC3-4F836F98848C} = {70CE6CD1-00D9-4F06-BFC3-4F836F98848C}
 	EndProjectSection
 EndProject
@@ -18,6 +19,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parmalen.StreamTests", "StreamsInput\Parmalen.StreamTests\Parmalen.StreamTests.csproj", "{70CE6CD1-00D9-4F06-BFC3-4F836F98848C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parmalen.SoxStream", "StreamsInput\Parmalen.SoxStream\Parmalen.SoxStream.csproj", "{D34AF556-B32B-4125-9866-BF8AF2C57B13}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parmalen.Weather", "Plugins\Parmalen.Weather\Parmalen.Weather.csproj", "{37A9C660-0E03-4743-B386-941B41FF9080}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +44,10 @@ Global
 		{D34AF556-B32B-4125-9866-BF8AF2C57B13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D34AF556-B32B-4125-9866-BF8AF2C57B13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D34AF556-B32B-4125-9866-BF8AF2C57B13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37A9C660-0E03-4743-B386-941B41FF9080}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37A9C660-0E03-4743-B386-941B41FF9080}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37A9C660-0E03-4743-B386-941B41FF9080}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37A9C660-0E03-4743-B386-941B41FF9080}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,5 +55,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{70CE6CD1-00D9-4F06-BFC3-4F836F98848C} = {99ED3209-91CA-45C1-9951-74EDA752C7A1}
 		{D34AF556-B32B-4125-9866-BF8AF2C57B13} = {99ED3209-91CA-45C1-9951-74EDA752C7A1}
+		{37A9C660-0E03-4743-B386-941B41FF9080} = {FFF6A652-D1A9-406D-8079-91AB6A8399A0}
 	EndGlobalSection
 EndGlobal
