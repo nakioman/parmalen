@@ -31,8 +31,7 @@ namespace Parmalen.Engine
             {
                 while (true)
                 {
-                    var task = wit.CaptureTextIntentAsync("Como va a estar el tiempo mañana en Buenos Aires?").Result;
-                    //var task = wit.CaptureSpeechIntentAsync().Result;
+                    var task = wit.CaptureSpeechIntentAsync().Result;
                     if (task != null)
                     {
                         foreach (var outcome in task.Outcomes)
@@ -44,7 +43,7 @@ namespace Parmalen.Engine
                                 _log.ErrorFormat("There is no plugin implemented for the intent: {0}", outcome.Intent);
                                 continue;
                             }
-                            intent.Value.Run(outcome.Entities);
+                            intent.Value.Run(outcome.Entities).Wait();
                         }
                     }
                 }

@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using log4net;
 using Parmalen.Contracts;
@@ -59,7 +60,25 @@ namespace Parmalen.SoxStream
                     Bytes = bytes
                 };
                 Log.Info("End Method: RecordAsync (SoxStreamRecord)");
+                PlayBeep();
                 return streamInfo;
+            }
+        }
+
+        private void PlayBeep()
+        {
+            using (var process = new Process())
+            {
+                var fileInfo = new FileInfo(Assembly.GetAssembly(GetType()).Location);
+                var beepFile = Path.Combine(fileInfo.DirectoryName, @"beep.mp3");
+                var arguments = $"{beepFile} -t {_config.Device}";
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.FileName = _config.Path;
+                process.StartInfo.Arguments = arguments;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardError = true;
+                process.StartInfo.UseShellExecute = false;
+                process.Start();
             }
         }
     }
