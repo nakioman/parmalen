@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Autofac.Features.Metadata;
 using log4net;
 using Newtonsoft.Json;
-using Parmalen.Contracts;
 using Parmalen.Contracts.Intent;
 using Parmalen.Contracts.Record;
 using Parmalen.Engine.Configuration;
@@ -31,14 +31,25 @@ namespace Parmalen.Engine
             _streamRecord = streamRecords.First(x => x.Metadata["Name"].Equals(_configuration.StreamRecordType)).Value;
         }
 
-        public async Task<WitResponse> CaptureSpeechIntentAsync()
+        public WitResponse CaptureSpeechIntent()
         {
-            _log.Info("Start Method: CaptureSpeechIntentAsync");
-            var streamInfo = await _streamRecord.RecordAsync().WithTimeout(TimeSpan.FromSeconds(_configuration.MaxRecordTime));
-            if (streamInfo != null)
+            _log.Info("Start Method: CaptureSpeechIntent");
+            var cts = new CancellationTokenSource(TimeSpan.FromSeconds(_configuration.MaxRecordTime));
+            var task = _streamRecord.RecordAsync();
+            try
+            {
+                task.Wait(cts.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                _log.Info("End Method: CaptureSpeechIntent without results");
+                return null;
+            }
+            if (task.IsCompleted)
             {
                 try
                 {
+                    var streamInfo = task.Result;
                     var endian = streamInfo.LittleEndian ? "little" : "big";
                     var uri = $"{WitApiSpeechUrl}?version={WitApiVersion}";
                     var webRequest = WebRequest.Create(uri);
@@ -47,33 +58,36 @@ namespace Parmalen.Engine
                     webRequest.ContentLength = streamInfo.Bytes.Length;
                     webRequest.ContentType =
                         $"{streamInfo.AudioType};encoding={streamInfo.Encoding};bits={streamInfo.Bits};rate={streamInfo.Rate};endian={endian}";
-                    using (var writeStream = await webRequest.GetRequestStreamAsync())
+                    using (var writeStream = webRequest.GetRequestStream())
                     {
-                        await writeStream.WriteAsync(streamInfo.Bytes, 0, streamInfo.Bytes.Length);
-                        var response = await webRequest.GetResponseAsync();
+                        writeStream.Write(streamInfo.Bytes, 0, streamInfo.Bytes.Length);
+                        var response = webRequest.GetResponse();
                         using (var stream = response.GetResponseStream())
                         {
-                            using (var reader = new StreamReader(stream))
+                            if (stream != null)
                             {
-                                var result = reader.ReadToEnd();
-                                _log.DebugFormat("Results: {0} ", result);
-                                _log.Info("End Method: CaptureSpeechIntentAsync with results");
-                                return JsonConvert.DeserializeObject<WitResponse>(result);
+                                using (var reader = new StreamReader(stream))
+                                {
+                                    var result = reader.ReadToEnd();
+                                    _log.DebugFormat("Results: {0} ", result);
+                                    _log.Info("End Method: CaptureSpeechIntent with results");
+                                    return JsonConvert.DeserializeObject<WitResponse>(result);
+                                }
                             }
                         }
                     }
                 }
                 catch (Exception e)
                 {
-                    _log.FatalFormat("Error in Method: CaptureSpeechIntentAsync, exception: {0}", e);
+                    _log.FatalFormat("Error in Method: CaptureSpeechIntent, exception: {0}", e);
                     throw new ApplicationException("Can't get intent", e);
                 }
             }
-            _log.Info("End Method: CaptureSpeechIntentAsync without results");
+            _log.Info("End Method: CaptureSpeechIntent without results");
             return null;
         }
 
-        public async Task<WitResponse> CaptureTextIntentAsync(string value)
+        public WitResponse CaptureTextIntent(string value)
         {
             _log.InfoFormat("Start Method: CaptureTextIntentAsync with value: {0}", value);
             try
@@ -83,17 +97,21 @@ namespace Parmalen.Engine
                 webRequest.Method = "GET";
                 webRequest.Headers["Authorization"] = $"Bearer {_configuration.WitAccessToken}";
 
-                var response = await webRequest.GetResponseAsync();
+                var response = webRequest.GetResponse();
                 using (var stream = response.GetResponseStream())
                 {
-                    using (var reader = new StreamReader(stream))
+                    if (stream != null)
                     {
-                        var result = reader.ReadToEnd();
-                        _log.DebugFormat("Results: {0}", result);
-                        _log.Info("End Method: CaptureTextIntentAsync");
-                        return JsonConvert.DeserializeObject<WitResponse>(result);
+                        using (var reader = new StreamReader(stream))
+                        {
+                            var result = reader.ReadToEnd();
+                            _log.DebugFormat("Results: {0}", result);
+                            _log.Info("End Method: CaptureTextIntentAsync");
+                            return JsonConvert.DeserializeObject<WitResponse>(result);
+                        }
                     }
                 }
+                return null;
             }
             catch (Exception e)
             {

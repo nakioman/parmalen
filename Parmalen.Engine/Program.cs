@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition.Hosting;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Autofac;
 using Autofac.Extras.Attributed;
 using Autofac.Features.Metadata;
@@ -16,7 +17,7 @@ namespace Parmalen.Engine
 {
     internal class Program
     {
-        private static DirectoryCatalog _directoryCatalog;
+        private static DirectoryCatalog _extensionsDirectoryCatalog;
         private static IContainer _container;
         private static ILog _log;
 
@@ -31,9 +32,12 @@ namespace Parmalen.Engine
             {
                 while (true)
                 {
-                    var task = wit.CaptureSpeechIntentAsync().Result;
+                    var task = wit.CaptureSpeechIntent();
                     if (task != null)
                     {
+                        Helpers.PlayResourceSound(task.Outcomes.Any()
+                            ? "Parmalen.Engine.Sounds.ok.wav"
+                            : "Parmalen.Engine.Sounds.error.wav");
                         foreach (var outcome in task.Outcomes)
                         {
                             var intent = _container.Resolve<IEnumerable<Meta<IIntent>>>()
@@ -66,7 +70,7 @@ namespace Parmalen.Engine
             var extensionsFolder = AppDomain.CurrentDomain.BaseDirectory;
             var fileSystemWatcher = new FileSystemWatcher(extensionsFolder, "*.dll");
 
-            _directoryCatalog = new DirectoryCatalog(extensionsFolder);
+            _extensionsDirectoryCatalog = new DirectoryCatalog(extensionsFolder);
 
             fileSystemWatcher.Changed += ExtensionsFolderUpdated;
             fileSystemWatcher.Created += ExtensionsFolderUpdated;
@@ -80,7 +84,8 @@ namespace Parmalen.Engine
 
             builder.RegisterModule<AttributedMetadataModule>();
             builder.RegisterModule<LoggingModule>();
-            builder.RegisterComposablePartCatalog(_directoryCatalog);
+            builder.RegisterComposablePartCatalog(_extensionsDirectoryCatalog);
+            builder.RegisterComposablePartCatalog(new AssemblyCatalog(Assembly.GetAssembly(typeof(Program))));
             builder.RegisterType<WitService>();
 
             _container = builder.Build();
@@ -88,7 +93,7 @@ namespace Parmalen.Engine
 
         private static void ExtensionsFolderUpdated(object sender, FileSystemEventArgs e)
         {
-            _directoryCatalog.Refresh();
+            _extensionsDirectoryCatalog.Refresh();
         }
     }
 }

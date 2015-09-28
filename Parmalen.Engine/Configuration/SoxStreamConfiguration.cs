@@ -1,6 +1,6 @@
 using System.Configuration;
 
-namespace Parmalen.SoxStream
+namespace Parmalen.Engine.Configuration
 {
     public class SoxStreamConfiguration : ConfigurationSection
     {

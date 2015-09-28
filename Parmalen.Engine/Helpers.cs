@@ -1,14 +1,20 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Media;
+using System.Reflection;
 
 namespace Parmalen.Engine
 {
     public static class Helpers
     {
-        public static Task<TResult> WithTimeout<TResult>(this Task<TResult> task, TimeSpan timeout)
+        public static void PlayResourceSound(string soundName)
         {
-            var timeoutTask = Task.Delay(timeout).ContinueWith(_ => default(TResult), TaskContinuationOptions.ExecuteSynchronously);
-            return Task.WhenAny(task, timeoutTask).Unwrap();
+            var assembly = Assembly.GetExecutingAssembly();
+            using (var stream = assembly.GetManifestResourceStream(soundName))
+            {
+                using (var soundPlayer = new SoundPlayer(stream))
+                {
+                    soundPlayer.Play();
+                }
+            }
         }
     }
 }
